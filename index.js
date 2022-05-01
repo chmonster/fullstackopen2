@@ -20,7 +20,6 @@ morgan.token('person', function (req, res) {
 })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :person'))
 
-
 const now = () => new Date(Date.now()).toString()
 
 /* let persons = [

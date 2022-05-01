@@ -10,8 +10,19 @@ mongoose.connect(url)
   .catch(error => console.log('error', error.message))
 
 const personSchema = new mongoose.Schema({
-  name: {type: String, minLength: 3, required: true},
-  number: {type: String, required: true}
+  name: {
+    type: String, 
+    minLength: 3, 
+    required: true,
+    unique: true
+  },
+  number: {
+    type: String, 
+    minLength: 8, 
+    validator: function(v) {
+      return /\d{3}-\d+/.test(v)
+    },
+    required: true}
 })
 
 personSchema.set('toJSON', {
