@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf build && cd ~/fullstackopen/part2/phonebook && npm run build && cp -r build ~/fullstackopen2",
+    "deploy": "git push heroku main",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+    "logs:prod": "heroku logs --tail"
   },
   "repository": {
     "type": "git",
@@ -20,7 +24,9 @@
   "homepage": "https://github.com/chmonster/fullstackopen2#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.18.0",
+    "mongoose": "^6.3.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
