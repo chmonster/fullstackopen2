@@ -120,7 +120,7 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-  console.error('errorHandler', error.message, error.response.data)
+  //console.error('errorHandler', error.message, error.response.data)
   if(error.name === 'CastError') {
     return response.status(400).send({ error: 'malformed id' })
   } else if (error.name === 'ValidationError') {
