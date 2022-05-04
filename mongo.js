@@ -1,20 +1,21 @@
 console.clear()
 
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 console.log('argv:', process.argv.length)
 
-if (process.argv.length < 3) {
+/*if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
-}
+}*/
 
-const password = process.argv[2]
+//const password = process.argv[2]
 
-const url =
-  `mongodb+srv://phonebook:${password}@cluster0.pwxhu.mongodb.net/numberApp?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URI
+
 mongoose.connect(url)
-  .then(result => console.log('connected to MongoDB'))
+  .then(() => console.log('connected to MongoDB'))
   .catch(error => console.log('error', error.message))
 
 const personSchema = new mongoose.Schema({
@@ -24,19 +25,19 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema)
 
 //node mongo.js password newName newNumber
-if(process.argv.length === 5) {  
+if(process.argv.length === 4) {
   console.log('Person entry')
   const person = new Person({
-    name: process.argv[3],
-    number: process.argv[4]
+    name: process.argv[2],
+    number: process.argv[3]
   })
-  person.save().then(result => {
+  person.save().then(() => {
     console.log(`person saved: ${person.name} ${person.number}`)
     mongoose.connection.close()
   })
-//node mongo.js password  
-} else if(process.argv.length === 3) {
-  console.log('password only')
+//node mongo.js password
+} else if(process.argv.length === 2) {
+  console.log('no args')
   Person.find({}).then(result => {
     result.forEach(person => {
       console.log(person)
@@ -44,4 +45,3 @@ if(process.argv.length === 5) {
     mongoose.connection.close()
   })
 }
-
